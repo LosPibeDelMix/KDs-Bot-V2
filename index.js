@@ -2,6 +2,7 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, Collection, Partials } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+const http = require('http');
 const config = require('./config');
 const { createErrorEmbed, replyError } = require('./helpers');
 
@@ -93,7 +94,7 @@ client.once('clientReady', () => {
   const totalServidores = client.guilds.cache.size;
 
   const actividades = [
-    { nombre: '⚡Usa /help', tipo: 3 },
+    { nombre: '⚡ Usa /help', tipo: 3 },
     { nombre: '🎫 /ticket para soporte', tipo: 3 },
     { nombre: '🛡️ Moderando el servidor', tipo: 3 },
     { nombre: `👥 ${totalUsuarios.toLocaleString('es-ES')} miembros en total`, tipo: 3 },
@@ -168,6 +169,14 @@ process.on('unhandledRejection', (error) => {
 
 process.on('uncaughtException', (error) => {
   console.error('Error no capturado (Exception):', error);
+});
+
+// Servidor web para mantener el bot activo en Render
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('✅ KDs Bot V2 activo!');
+}).listen(process.env.PORT || 3000, () => {
+  console.log(`🌐 Servidor web activo en puerto ${process.env.PORT || 3000}`);
 });
 
 client.login(process.env.TOKEN);
