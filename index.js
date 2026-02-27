@@ -178,4 +178,7 @@ process.on('uncaughtException', (error) => {
   console.error('Error no capturado (Exception):', error);
 });
 
-client.login(process.env.TOKEN);
+// Login con debug
+client.login(process.env.TOKEN)
+  .then(() => console.log('✅ Login exitoso'))
+  .catch(err => console.error('❌ Error al hacer login:', err.message));
