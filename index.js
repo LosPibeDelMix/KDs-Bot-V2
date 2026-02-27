@@ -6,6 +6,15 @@ const http = require('http');
 const config = require('./config');
 const { createErrorEmbed, replyError } = require('./helpers');
 
+// ✅ Servidor web PRIMERO para que Render detecte el puerto
+const PORT = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('✅ KDs Bot V2 activo!');
+}).listen(PORT, '0.0.0.0', () => {
+  console.log(`🌐 Servidor web activo en puerto ${PORT}`);
+});
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -58,7 +67,6 @@ client.saveWarns = saveWarns;
 function loadCommands(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   let loadedCount = 0;
-
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
@@ -91,7 +99,6 @@ client.once('clientReady', () => {
   console.log('');
 
   const totalUsuarios = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
-  const totalServidores = client.guilds.cache.size;
 
   const actividades = [
     { nombre: '⚡ Usa /help', tipo: 3 },
@@ -169,14 +176,6 @@ process.on('unhandledRejection', (error) => {
 
 process.on('uncaughtException', (error) => {
   console.error('Error no capturado (Exception):', error);
-});
-
-// Servidor web para mantener el bot activo en Render
-http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('✅ KDs Bot V2 activo!');
-}).listen(process.env.PORT || 3000, () => {
-  console.log(`🌐 Servidor web activo en puerto ${process.env.PORT || 3000}`);
 });
 
 client.login(process.env.TOKEN);
