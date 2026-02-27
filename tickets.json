@@ -1,0 +1,82 @@
+{
+  "ticket-1": {
+    "id": "ticket-1",
+    "number": 1,
+    "userId": "1055093032887791726",
+    "userName": "daxerxx",
+    "channelId": "1476915396287139932",
+    "asunto": "Me muero",
+    "createdAt": "2026-02-27T12:14:30.703Z",
+    "closed": true,
+    "closedAt": "2026-02-27T12:15:03.439Z",
+    "closedBy": "daxerxx"
+  },
+  "ticket-2": {
+    "id": "ticket-2",
+    "number": 2,
+    "userId": "1055093032887791726",
+    "userName": "daxerxx",
+    "channelId": "1476915868972879974",
+    "asunto": "asdsa",
+    "createdAt": "2026-02-27T12:16:23.354Z",
+    "closed": true,
+    "closedAt": "2026-02-27T12:16:30.370Z",
+    "closedBy": "daxerxx"
+  },
+  "ticket-3": {
+    "id": "ticket-3",
+    "number": 3,
+    "userId": "1055093032887791726",
+    "userName": "daxerxx",
+    "channelId": "1476916168735457393",
+    "asunto": "Me banearon sin sentido",
+    "createdAt": "2026-02-27T12:17:34.751Z",
+    "closed": true,
+    "closedAt": "2026-02-27T12:17:51.483Z",
+    "closedBy": "daxerxx"
+  },
+  "ticket-4": {
+    "id": "ticket-4",
+    "number": 4,
+    "userId": "1055093032887791726",
+    "userName": "daxerxx",
+    "channelId": "1476916696831889631",
+    "asunto": "asdasd",
+    "createdAt": "2026-02-27T12:19:40.776Z",
+    "closed": true,
+    "closedAt": "2026-02-27T12:19:51.521Z",
+    "closedBy": "daxerxx"
+  },
+  "ticket-5": {
+    "id": "ticket-5",
+    "number": 5,
+    "userId": "1055093032887791726",
+    "userName": "daxerxx",
+    "channelId": "1476917219332984832",
+    "asunto": "dsad",
+    "createdAt": "2026-02-27T12:21:45.273Z",
+    "closed": false
+  },
+  "ticket-6": {
+    "id": "ticket-6",
+    "number": 6,
+    "userId": "1055093032887791726",
+    "userName": "daxerxx",
+    "channelId": "1476917432483581962",
+    "asunto": "AYUDA",
+    "createdAt": "2026-02-27T12:22:36.075Z",
+    "closed": false
+  },
+  "ticket-7": {
+    "id": "ticket-7",
+    "number": 7,
+    "userId": "1055093032887791726",
+    "userName": "daxerxx",
+    "channelId": "1476917675941695539",
+    "asunto": "AYUDA",
+    "createdAt": "2026-02-27T12:23:34.141Z",
+    "closed": true,
+    "closedAt": "2026-02-27T12:23:49.395Z",
+    "closedBy": "daxerxx"
+  }
+}

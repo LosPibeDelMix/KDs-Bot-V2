@@ -1,0 +1,106 @@
+# ====================================
+# GITIGNORE - KD's Bot V2
+# ====================================
+#
+# Este archivo lista los archivos/carpetas que NO deben
+# ser seguidos por Git (No subirlos a repositorio)
+#
+
+# ====================================
+# ARCHIVOS SENSIBLES
+# ====================================
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Tokens y secretos
+*.key
+*.pem
+*.secret
+
+# ====================================
+# NODE.JS
+# ====================================
+
+# Dependencias instaladas
+node_modules/
+package-lock.json
+yarn.lock
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Caché
+.npm
+.cache
+
+# ====================================
+# DATOS Y CONFIGURACIÓN
+# ====================================
+
+# Datos de warns (información sensible)
+warns.json
+
+# Datos de IPs baneadas
+bannedips.json
+
+# ====================================
+# IDE Y EDITORES
+# ====================================
+
+# Visual Studio Code
+.vscode/
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# WebStorm
+.DS_Store
+
+# ====================================
+# SISTEMA OPERATIVO
+# ====================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+.Trash-*
+
+# ====================================
+# OTROS
+# ====================================
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Resultado de pruebas
+coverage/
+test/
+
+# ====================================
+# EXCEPCIONES (seguir estos archivos)
+# ====================================
+
+# Excepto los archivos de configuración
+!.env.example
+!.gitignore
+!.github/
