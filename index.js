@@ -181,7 +181,17 @@ process.on('uncaughtException', (error) => {
 // Debug del token
 console.log('🔑 Token presente:', !!process.env.TOKEN);
 console.log('🔑 Token longitud:', process.env.TOKEN?.length || 0);
+console.log('🔄 Intentando conectar a Discord...');
 
 client.login(process.env.TOKEN)
   .then(() => console.log('✅ Login exitoso'))
-  .catch(err => console.error('❌ Error al hacer login:', err.message));
+  .catch(err => {
+    console.error('❌ Error al hacer login:', err.message);
+    console.error('❌ Error completo:', err);
+    process.exit(1);
+  });
+
+// Mantener el proceso vivo
+setInterval(() => {
+  console.log('💓 Bot activo -', new Date().toISOString());
+}, 60000);
