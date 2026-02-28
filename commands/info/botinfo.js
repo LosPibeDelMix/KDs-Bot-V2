@@ -88,18 +88,7 @@ module.exports = {
         color: pingColor,
         thumbnail: client.user.displayAvatarURL({ dynamic: true, size: 256 }),
         fields: [
-          // ── Creador
-          {
-            name: '👑 Creador',
-            value: [
-              `**Nombre:** ${CREADOR.nombre}`,
-              `**Discord:** @${CREADOR.discord}`,
-              redes.length > 0 ? `**Redes:** ${redes.join(' • ')}` : null,
-            ].filter(Boolean).join('\n'),
-            inline: false,
-          },
-
-          // ── Estadísticas
+            // ── Estadísticas
           {
             name: '📊 Estadísticas',
             value: [
