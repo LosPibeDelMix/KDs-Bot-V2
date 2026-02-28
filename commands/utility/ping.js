@@ -1,61 +1,40 @@
 const { SlashCommandBuilder } = require('discord.js');
 const config = require('../../config');
-const { createEmbed, replyError, getBotPing } = require('../../helpers');
+const { createEmbed, replyError } = require('../../helpers');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ping')
-    .setDescription('Muestra la latencia del bot'),
+    .setDescription('Muestra la latencia del bot y el estado de la conexión'),
 
   async execute(interaction, client) {
     try {
-      await interaction.deferReply();
+      const sent = await interaction.reply({ content: '🏓 Calculando...', fetchReply: true });
+      const responseTime = sent.createdTimestamp - interaction.createdTimestamp;
+      const apiPing = client.ws.ping;
 
-      // Obtener latencias
-      const botPing = getBotPing(client);
-      
-      // Calcular ping de la respuesta
-      const responseTime = Date.now() - interaction.createdTimestamp;
+      const getStatus = (ms) => {
+        if (ms < 50)  return { icon: '🟢', label: 'Excelente' };
+        if (ms < 100) return { icon: '🟢', label: 'Bueno' };
+        if (ms < 200) return { icon: '🟡', label: 'Moderado' };
+        return { icon: '🔴', label: 'Pobre' };
+      };
 
-      // Determinar estado basado en latencia
-      let status = '🟢 Excelente';
-      let statusValue = 'La latencia es óptima';
-      
-      if (botPing > 200) {
-        status = '🔴 Pobre';
-        statusValue = 'La latencia es alta';
-      } else if (botPing > 100) {
-        status = '🟡 Moderado';
-        statusValue = 'La latencia es aceptable';
-      } else if (botPing > 50) {
-        status = '🟢 Bueno';
-        statusValue = 'La latencia es buena';
-      }
+      const apiStatus = getStatus(apiPing);
+      const respStatus = getStatus(responseTime);
 
       const embed = await createEmbed({
         title: `${config.emojis.ping} Latencia del Bot`,
         color: config.colors.ping,
         fields: [
-          {
-            name: '⚡ Ping API de Discord',
-            value: `\`${botPing}ms\``,
-            inline: true
-          },
-          {
-            name: '⏱️ Tiempo de Respuesta',
-            value: `\`${responseTime}ms\``,
-            inline: true
-          },
-          {
-            name: '📊 Estado',
-            value: `${status}\n${statusValue}`,
-            inline: false
-          },
+          { name: '⚡ WebSocket (API)', value: `${apiStatus.icon} \`${apiPing}ms\` — ${apiStatus.label}`, inline: true },
+          { name: '💬 Tiempo de respuesta', value: `${respStatus.icon} \`${responseTime}ms\` — ${respStatus.label}`, inline: true },
+          { name: '🌐 Servidores activos', value: `\`${client.guilds.cache.size}\``, inline: true },
         ],
         client,
       });
 
-      return await interaction.editReply({ embeds: [embed] });
+      return await interaction.editReply({ content: null, embeds: [embed] });
     } catch (error) {
       console.error('Error en comando /ping:', error);
       return await replyError(interaction, config.messages.error);

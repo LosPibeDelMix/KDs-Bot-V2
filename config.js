@@ -1,23 +1,17 @@
-/**
- * Configuración centralizada del bot
- * Colores, constantes, emojis, etc.
- */
-
 module.exports = {
-  // Colores por categoría (en hexadecimal)
   colors: {
-    moderation: '#FF0000',   // Rojo para moderación
-    info: '#3498DB',         // Azul para información
-    fun: '#FF1493',          // Rosa para diversión
-    ip: '#E74C3C',           // Rojo oscuro para IPs
-    utility: '#2ECC71',      // Verde para utilidad
-    success: '#27AE60',      // Verde oscuro para éxito
-    error: '#E74C3C',        // Rojo para errores
-    warning: '#F39C12',      // Naranja para advertencias
-    ping: '#9B59B6',         // Morado para ping
+    moderation: '#E74C3C',
+    info: '#3498DB',
+    fun: '#FF1493',
+    ip: '#C0392B',
+    utility: '#2ECC71',
+    success: '#27AE60',
+    error: '#E74C3C',
+    warning: '#F39C12',
+    ping: '#9B59B6',
+    nuke: '#FF0000',
   },
 
-  // Mensajes estandarizados
   messages: {
     noPermissions: '❌ No tienes permisos para usar este comando.',
     noBotPermissions: '❌ No tengo permisos suficientes para completar esta acción.',
@@ -27,28 +21,31 @@ module.exports = {
     memberBannable: '❌ No puedo banear a ese usuario. Posiblemente tenga más permisos que yo.',
     ownerProtected: '❌ No puedo ejecutar acciones contra el propietario del servidor.',
     selfAction: '❌ No puedes ejecutar acciones contra ti mismo.',
-    cooldown: '⏱️ Espera {tiempo} segundos antes de usar este comando de nuevo.',
+    cooldown: '⏱️ Espera **{tiempo}** segundos antes de usar este comando de nuevo.',
     error: '❌ Ocurrió un error al ejecutar el comando. Por favor intenta de nuevo.',
     successAction: '✅ Acción completada correctamente.',
   },
 
-  // Tiempos de espera (cooldowns) en segundos
   cooldowns: {
-    meme: 3,
-    love: 2,
-    help: 1,
-    userinfo: 1,
-    serverinfo: 1,
-    default: 2,
+    meme: 5,
+    love: 3,
+    help: 3,
+    userinfo: 2,
+    serverinfo: 2,
+    clear: 5,
+    nuke: 30,
+    ban: 3,
+    kick: 3,
+    mute: 3,
+    warn: 2,
+    default: 3,
   },
 
-  // Configuración de embeds
   embedDefaults: {
     timestamp: true,
     footer: true,
   },
 
-  // Emojis útiles
   emojis: {
     success: '✅',
     error: '❌',
@@ -59,7 +56,10 @@ module.exports = {
     roles: '🎭',
     mute: '🔇',
     ban: '🔨',
+    kick: '👢',
     warn: '⚠️',
+    nuke: '☢️',
+    clear: '🗑️',
     clock: '⏱️',
     calendar: '📅',
     link: '🔗',
@@ -67,15 +67,13 @@ module.exports = {
     loading: '⏳',
   },
 
-  // Configuración de warns
   warnSystem: {
     maxWarns: 3,
     autobanAt: 3,
-    minutesToRemoveWarn: 7 * 24 * 60, // 7 días en minutos
+    minutesToRemoveWarn: 7 * 24 * 60,
   },
 
-  // URLs y constantes
   defaults: {
-    timeoutMax: 28 * 24 * 60, // 28 días en minutos (máximo de Discord)
+    timeoutMax: 28 * 24 * 60,
   }
 };

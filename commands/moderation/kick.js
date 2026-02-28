@@ -1,29 +1,24 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const config = require('../../config');
-const { createEmbed, validateModerationAction, canBotMute, minutesToMs, formatTime, replyError } = require('../../helpers');
+const { createEmbed, validateModerationAction, replyError } = require('../../helpers');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('mute')
-    .setDescription('Mutea (timeout) a un usuario temporalmente')
+    .setName('kick')
+    .setDescription('Expulsa a un usuario del servidor')
     .addUserOption(opt =>
-      opt.setName('usuario').setDescription('Usuario a mutear').setRequired(true)
-    )
-    .addIntegerOption(opt =>
-      opt.setName('minutos').setDescription('Duración en minutos (máx: 40320 = 28 días)').setRequired(false)
-        .setMinValue(1).setMaxValue(40320)
+      opt.setName('usuario').setDescription('Usuario a expulsar').setRequired(true)
     )
     .addStringOption(opt =>
-      opt.setName('razon').setDescription('Razón del mute').setRequired(false)
+      opt.setName('razon').setDescription('Razón de la expulsión').setRequired(false)
     )
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 
   async execute(interaction, client) {
     try {
       await interaction.deferReply();
 
       const target = await interaction.guild.members.fetch(interaction.options.getUser('usuario').id).catch(() => null);
-      const minutes = interaction.options.getInteger('minutos') || 10;
       const razon = interaction.options.getString('razon') || 'Sin razón especificada';
 
       if (!target) return await replyError(interaction, config.messages.userNotFound);
@@ -31,19 +26,15 @@ module.exports = {
       const validation = validateModerationAction(interaction.member, target, interaction.guild);
       if (!validation.valid) return await replyError(interaction, validation.message);
 
-      if (!canBotMute(target)) return await replyError(interaction, config.messages.memberModerable);
+      if (!target.kickable) return await replyError(interaction, config.messages.memberModerable);
 
-      const ms = minutesToMs(minutes);
-      await target.timeout(ms, razon);
-
-      // DM al usuario
+      // DM antes del kick
       try {
         const dm = await createEmbed({
-          title: `${config.emojis.mute} Has sido silenciado`,
-          description: `Fuiste silenciado en **${interaction.guild.name}**`,
+          title: '👢 Has sido expulsado',
+          description: `Fuiste expulsado de **${interaction.guild.name}**`,
           color: config.colors.moderation,
           fields: [
-            { name: '⏱️ Duración', value: formatTime(ms) },
             { name: '📋 Razón', value: razon },
             { name: '🛡️ Moderador', value: interaction.user.tag },
           ],
@@ -51,13 +42,14 @@ module.exports = {
         await target.user.send({ embeds: [dm] });
       } catch (_) {}
 
+      await target.kick(razon);
+
       const embed = await createEmbed({
-        title: `${config.emojis.mute} Usuario Muteado`,
+        title: '👢 Usuario Expulsado',
         color: config.colors.moderation,
         fields: [
           { name: '👤 Usuario', value: `${target.user.tag} (${target.user.id})`, inline: true },
           { name: '🛡️ Moderador', value: interaction.user.tag, inline: true },
-          { name: '⏱️ Duración', value: formatTime(ms), inline: true },
           { name: '📋 Razón', value: razon, inline: false },
         ],
         thumbnail: target.user.displayAvatarURL({ dynamic: true, size: 256 }),
@@ -66,7 +58,7 @@ module.exports = {
 
       return await interaction.editReply({ embeds: [embed] });
     } catch (error) {
-      console.error('Error en comando /mute:', error);
+      console.error('Error en comando /kick:', error);
       return await replyError(interaction, config.messages.error);
     }
   }
